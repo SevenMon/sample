@@ -7,6 +7,12 @@ use Auth;
 
 class SessionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
     //登录界面
     public function create()
     {
@@ -24,6 +30,7 @@ class SessionsController extends Controller
             // 该用户存在于数据库，且邮箱和密码相符合
             session()->flash('success', '欢迎回来！');
             return redirect()->route('users.show', [Auth::user()]);
+            //return redirect()->intended(route('users.show', [Auth::user()]));
         }else {
             session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
             return redirect()->back();
@@ -39,8 +46,6 @@ class SessionsController extends Controller
     }
     //检查登录
     public function checklogin(){
-        var_dump(Auth);
-        exit();
         if(Auth::check()){
             echo "yijingdenglu";
         }else {
