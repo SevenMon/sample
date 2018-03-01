@@ -35,6 +35,13 @@ class User extends Authenticatable
             $user->activation_token = str_random(30);
         });
     }
+
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
@@ -43,5 +50,10 @@ class User extends Authenticatable
     {
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
+    public function feed()
+    {
+        return $this->statuses()
+                    ->orderBy('created_at', 'desc');
     }
 }
