@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\user;
 use Auth;
 use Mail;
-use Auth;
 
 class UsersController extends Controller
 {
